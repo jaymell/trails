@@ -1,0 +1,37 @@
+html, body {
+        height: 100%;
+        width: 100%;
+}
+ul {
+	list-style-type: none;
+}
+#background {
+        height: 100%;
+        width: 100%;
+        background-color: #C0C0C0;
+}
+#wrapper {
+	overflow: hidden;
+}
+#wrapper:after { clear: both; content: ""; display: table;}
+
+
+#narrow_long {
+        margin-top: 100px;
+        margin-left: 100px;
+        float: left;
+        background-color: #FFFFFF;
+        width: 25%;
+        height: 60%;
+        overflow: auto;
+}
+#map {
+        margin-top: 100px;
+        margin-left: 5px;
+        float: left;
+        background-color: #FFFFFF;
+        width: 60%;
+        height: 60%;
+
+}
+

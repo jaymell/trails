@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/static/css/trails.css">
+</head> 
+<body>
+<div id="background">
+	<div id="narrow_long">
+	<ul>
+	{% for value in the_list %}
+		<li>{{value}}</li>
+	{% endfor %}
+	</ul>
+	</div>
+	<div id="map"></div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key={{KEY}}"></script>
+<script src="/static/js/gmaps.js"></script>
+</body>
+</html>
+
+

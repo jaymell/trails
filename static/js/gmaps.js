@@ -4,9 +4,11 @@ var map = (function() {
 	var mapOptions = {
 		center: locale,
 		zoom: 2,
+		mapTypeId: google.maps.MapTypeId.SATELLITE // TERRAIN, SATELLITE, HYBRID, ROADMAP
 	};
+	console.log(mapOptions.mapTypeId);
 	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
+/*
 	// the following removes the annoying equator and date lines:
 	var mapStyle = [
 	      {
@@ -21,22 +23,14 @@ var map = (function() {
 	map.mapTypes.set('myCustomMap', styledMap);
 	map.setMapTypeId('myCustomMap');
 	// end part that removes equator and date lines here 
+*/
 	return {
 		addKmlLayer: function(url, options) {
 			options = options || {};
 			options['map'] = map;
 			var kmlLayer = new google.maps.KmlLayer(url, options);
-			kmlLayer.setMap(map);
+			// kmlLayer.setMap(map);
 			console.log(kmlLayer);
 		}
 	}
 }());
-
-/*
-	var kmlUrl = '/kml';
-	var kmlOptions = {
-	  suppressInfoWindows: true,
-	  preserveViewport: false,
-	  map: map
-*/
-	

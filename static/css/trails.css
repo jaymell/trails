@@ -22,7 +22,7 @@ ul {
         float: left;
         background-color: #FFFFFF;
         width: 25%;
-        height: 60%;
+        height: 80%;
         overflow: auto;
 }
 #map {
@@ -31,7 +31,7 @@ ul {
         float: left;
         background-color: #FFFFFF;
         width: 60%;
-        height: 60%;
+        height: 80%;
 
 }
 

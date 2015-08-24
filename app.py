@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from flask import render_template
 from flask import Response
 from pymongo import MongoClient
@@ -14,20 +15,37 @@ config = 'gmaps.key'
 
 @app.route("/")
 def index():
-	the_list = [ i for i in range(100) ]
-        parser = ConfigParser.SafeConfigParser()
-        parser.read(config)
-        KEY=parser.get('KEYS', 'KEY')
-        return render_template("index.html", KEY=KEY, the_list=the_list)
+
+	# the_list = [ i for i in range(100) ]
+	parser = ConfigParser.SafeConfigParser()
+	parser.read(config)
+	KEY=parser.get('KEYS', 'KEY')
+	with open('summary.json') as f:
+		the_list = json.loads(f.read())
+		return render_template("index.html", KEY=KEY, the_list=the_list)
+	return 'Unable to open date file' 
 
 @app.route("/kml")
 def return_kml():
-	xml = open('static/kml/doc.kml')
-	return Response(xml, mimetype='text/xml')
+	label = request.args.get('label', '')
+	if label:
+		try:
+			xml = open('static/kml/%s/doc.kml' % label)
+		except Exception as e:
+			return 'Could not retrieve requested record: %s ' % label
+		else:
+			return Response(xml, mimetype='text/xml')
+	else:
+		return 'Did not receive any data'
 
-@app.route("/test")	
+@app.route("/kmlexample")	
 def test():
-	return render_template("test.html")
+	return render_template("kmlexample.html")
+
+@app.route("/json")
+def testjson():
+	with open('summary.json') as f:
+		return f.read()
 
 if __name__ == "__main__":
         app.run(host='0.0.0.0', port=5001, debug=True) 

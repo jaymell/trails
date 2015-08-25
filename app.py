@@ -40,10 +40,6 @@ def return_kml():
 	else:
 		return 'Did not receive any data'
 
-@app.route("/kmlexample")	
-def test():
-	return render_template("kmlexample.html")
-
 @app.route("/json")
 def testjson():
 	with open('inventory.json') as f:

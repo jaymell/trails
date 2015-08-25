@@ -39,3 +39,21 @@ var map = (function() {
 		}
 	}
 }());
+
+// function to hightlight selected item,
+// remove any previous selection's highlight:
+var selectItem = (function() {
+	// for holding the select element:
+	var selected = undefined;
+	var oldBackground = undefined;
+
+	var func = function(item) {
+		if (selected) {
+			selected.style.backgroundColor = oldBackground;
+		}
+		oldBackground = item.style.backgroundColor;
+		item.style.backgroundColor = "#FFA500";
+		selected = item;
+	}	
+	return func;
+}());

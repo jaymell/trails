@@ -24,25 +24,26 @@ ul {
 }
 
 #narrow_long {
-        margin-top: 100px;
+        margin-top: 80px;
         margin-left: 100px;
         float: left;
         background-color: #FFFFFF;
         width: 25%;
-        height: 80%;
+        height: 85%;
         overflow: auto;
 }
 
 #map {
-        margin-top: 100px;
+        margin-top: 80px;
         margin-left: 5px;
         float: left;
         background-color: #FFFFFF;
-        width: 60%;
-        height: 80%;
+        width: 65%;
+        height: 85%;
 
 }
 
 .item {
+	padding: 10px;
 	cursor: pointer;
 }

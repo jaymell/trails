@@ -16,7 +16,7 @@ import json
 kmz_dir = './kmz'
 utc = dateutil.tz.tzutc() 
 central = dateutil.tz.gettz('America/Chicago')
-out_file = 'summary.json'
+out_file = 'inventory.json'
 summary = []
 
 def is_duplicate(item, summary):

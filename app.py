@@ -20,7 +20,9 @@ def index():
 	parser = ConfigParser.SafeConfigParser()
 	parser.read(config)
 	KEY=parser.get('KEYS', 'KEY')
-	with open('summary.json') as f:
+	# open inventory.json to get the list of kml files
+	# currently in inventory
+	with open('inventory.json') as f:
 		the_list = json.loads(f.read())
 		return render_template("index.html", KEY=KEY, the_list=the_list)
 	return 'Unable to open date file' 
@@ -44,7 +46,7 @@ def test():
 
 @app.route("/json")
 def testjson():
-	with open('summary.json') as f:
+	with open('inventory.json') as f:
 		return f.read()
 
 if __name__ == "__main__":

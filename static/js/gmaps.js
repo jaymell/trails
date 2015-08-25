@@ -24,13 +24,18 @@ var map = (function() {
 	map.setMapTypeId('myCustomMap');
 	// end part that removes equator and date lines here 
 */
+	// for holding old kml layer:
+	var old = undefined;
 	return {
 		addKmlLayer: function(url, options) {
 			options = options || {};
 			options['map'] = map;
+			if (old) {
+				old.setMap(null);
+			}
 			var kmlLayer = new google.maps.KmlLayer(url, options);
-			// kmlLayer.setMap(map);
 			console.log(kmlLayer);
+			old = kmlLayer;
 		}
 	}
 }());

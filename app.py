@@ -24,7 +24,9 @@ def index():
 	# currently in inventory
 	with open('inventory.json') as f:
 		the_list = json.loads(f.read())
-		return render_template("index.html", KEY=KEY, the_list=the_list)
+		# sort by date:
+		sorted_list = sorted(the_list, key=lambda k: k['date'])
+		return render_template("index.html", KEY=KEY, the_list=sorted_list)
 	return 'Unable to open date file' 
 
 @app.route("/kml")

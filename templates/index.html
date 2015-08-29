@@ -8,8 +8,8 @@
 	<div id="narrow_long">
 	<ul>
 	{% for item in the_list %}
-		<!-- <li onClick="map.addKmlLayer('/kml?label={{item.label}}')>{{item.date}}:{{item.name}}</li> -->
-		<li class="item" onClick="map.addKmlLayer('http://54.69.189.73/kml/{{item.label}}/doc.kml'); selectItem(this);">{{item.date}}:{{item.name}}</li>
+		<!-- <li onClick="map.addKmlLayer('/kml?uid={{item.uid}}')>{{item.date}}:{{item.name}}</li> -->
+		<li class="item" onClick="map.addKmlLayer('http://54.69.189.73/kml/{{item.uid}}/doc.kml'); selectItem(this);">{{item.date}}:{{item.name}}</li>
 	{% endfor %}
 	</ul>
 	</div>

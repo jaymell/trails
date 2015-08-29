@@ -52,6 +52,7 @@ var selectItem = (function() {
 			selected.style.backgroundColor = oldBackground;
 		}
 		oldBackground = item.style.backgroundColor;
+		// oraange: could definitely do a little better:
 		item.style.backgroundColor = "#FFA500";
 		selected = item;
 	}	

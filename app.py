@@ -15,8 +15,8 @@ config = 'gmaps.key'
 
 @app.route("/")
 def index():
+	""" sorts json file by date and returns it """
 
-	# the_list = [ i for i in range(100) ]
 	parser = ConfigParser.SafeConfigParser()
 	parser.read(config)
 	KEY=parser.get('KEYS', 'KEY')
@@ -31,12 +31,12 @@ def index():
 
 @app.route("/kml")
 def return_kml():
-	label = request.args.get('label', '')
-	if label:
+	uid = request.args.get('uid', '')
+	if uid:
 		try:
-			xml = open('static/kml/%s/doc.kml' % label)
+			xml = open('static/kml/%s/doc.kml' % uid)
 		except Exception as e:
-			return 'Could not retrieve requested record: %s ' % label
+			return 'Could not retrieve requested record: %s ' % uid 
 		else:
 			return Response(xml, mimetype='text/xml')
 	else:

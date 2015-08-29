@@ -26,6 +26,28 @@ utc = dateutil.tz.tzutc()
 central = dateutil.tz.gettz('America/Chicago')
 out_file = 'inventory.json'
 
+def Kml(kml):
+
+	def _get_time(self):
+		""" get time in first 'when' tag that appears --
+			there may be a better way to do this """ 
+		# need to variable-ize the version ??? 
+		time = root.find('.//{http://www.opengis.net/kml/2.2}when').text
+		## strip off last 5 chars, ie '.135Z in '2015-08-01T00:06:29.135Z'
+		time = datetime.datetime.strptime(time[:-5], '%Y-%m-%dT%H:%M:%S')
+		time = time.replace(tzinfo=utc)
+		time = time.astimezone(central)
+
+	def _get_activity(self):
+		pass
+
+	def __init__(self, kml):
+		self.kml = kml
+		self.tree = ET.parse(kml)
+		self.root = tree.getroot()
+		self.name = root.find('.//{http://www.opengis.net/kml/2.2}name').text
+		self.time = self._get_time()
+		
 def is_duplicate(item, collection):
 	""" check whether a record with EXACT same
 		date already exists in given mongo collection
@@ -52,16 +74,7 @@ for kmz in os.listdir(kmz_dir):
 			print('FILE NAME: %s' % kmz)
 			# open doc.kml in appropriate folder
 			# open xml parser, get date
-			tree = ET.parse(kml)
-			root = tree.getroot()
-			name = root.find('.//{http://www.opengis.net/kml/2.2}name').text
-			# get time in first 'when' tag that appears --
-			# need to variable-ize the version ???
-			time = root.find('.//{http://www.opengis.net/kml/2.2}when').text
-			## strip off last 5 chars, ie '.135Z in '2015-08-01T00:06:29.135Z'
-			time = datetime.datetime.strptime(time[:-5], '%Y-%m-%dT%H:%M:%S')
-			time = time.replace(tzinfo=utc)
-			time = time.astimezone(central)
+
 			print('Name: %s\tTime: %s' % (name, time) )
 			# convert to dict:
 			item = { 'uid': uid.__str__(), 'date': time.strftime('%Y-%m-%d %H:%M:%S'), 'name': name }

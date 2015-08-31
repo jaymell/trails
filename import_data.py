@@ -13,14 +13,13 @@ import re
 
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
-DB_NAME = 'fitness'
 connection = MongoClient(MONGODB_HOST, MONGODB_PORT)
-collection = 'trails'
+DB_NAME = 'fitness'
+collection = connection[DB_NAME]['trails']
 
 
-def Kml(kml):
+class Kml:
 	""" for getting data out of google tracks kml files """ 
-
 	def _get_time(self):
 		""" get time in first 'when' tag that appears --
 			there may be a better way to do this """ 
@@ -32,25 +31,34 @@ def Kml(kml):
 		time = datetime.datetime.strptime(time[:-5], '%Y-%m-%dT%H:%M:%S')
 		time = time.replace(tzinfo=utc)
 		self.time = time.astimezone(central)
-
 	def __init__(self, kml):
 		""" expects to be passed a file handle for kml file """
-
 		self.uid = uuid.uuid4()
-		self.kml = kml
-		self.tree = ET.parse(self.kml)
-		self.root = tree.getroot()
-
-		self.name = self.root.find('.//{http://www.opengis.net/kml/2.2}name').text
-		self.activity = self.root.find('.//{http://www.opengis.net/kml/2.2}Data').text
-
+		self.tree = ET.parse(kml)
+		self.root = self.tree.getroot()
+		# don't catch error on this -- we want it to fail if no time:
 		self._get_time()
-		# just a big string of text, but there is lots
-		# to pull out of it, eg activity type:
-		self.description = self.root.find('.//{http://www.opengis.net/kml/2.2}description').text
+		try:
+			self.name = self.root.find('.//{http://www.opengis.net/kml/2.2}name').text
+		except Exception as e:
+			#print('self.name failed: %s' % e)
+			self.name = 'Unnamed'
+		try:
+			self.activity = self.root.find('.//{http://www.opengis.net/kml/2.2}Data//{http://www.opengis.net/kml/2.2}value').text.title()
+		except Exception as e:
+			#print('self.activity failed: %s' % e)
+			self.activity = 'Unknown'
+		try:
+			# just a big string of text, but there is lots
+			# to pull out of it, eg activity type:
+			self.description = self.root.find('.//{http://www.opengis.net/kml/2.2}description').text
+		except Exception as e:
+			print('self.description failed: %s' % e)
 
+	def as_dict(self):
+		return {'name': self.name, 'activity': self.activity, 'date': self.time.strftime('%Y-%m-%d %H:%M:%S'), 'uid': self.uid.__str__()}
 	def as_json(self):
-		return json.dumps({'name': self.name, 'activity': self.activity, 'date': self.time.strftime('%Y-%m-%d %H:%M:%S'), 'uid': uid.__str__()})
+		return json.dumps(self.as_dict())
 		
 		
 def is_duplicate(kml, collection):
@@ -58,7 +66,7 @@ def is_duplicate(kml, collection):
 		date already exists in given mongo collection
 	"""
 	
-	results = [ i for i in collection.find({'date': item['date']}) ]
+	results = [ i for i in collection.find({'date': kml['date']}) ]
 	if results:
 		print('\nDuplicate found! %s\n' % item)
 		return True
@@ -77,12 +85,12 @@ def process(kml_file, kmz=False):
 		print('Failed for %s: %s' % (kml_file, e))
 	else:
 		print('FILE NAME: %s' % kml_file)
-		if not is_duplicate(kml.as_json(), collection): 
+		if not is_duplicate(kml.as_dict(), collection): 
 			# try to update database AND
 			# extract files to right place; if one
 			# fails, undo the other:	
 			try:
-				collection.insert_one(kml.as_json())
+				collection.insert_one(kml.as_dict())
 			except Exception as e:
 				print('Failed to update database with %s: %s' % (kml, e))
 			else:

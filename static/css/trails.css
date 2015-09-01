@@ -29,17 +29,23 @@ ul {
         float: left;
         background-color: #FFFFFF;
         width: 25%;
-        height: 85%;
+        height: 65%;
         overflow: auto;
 }
 
-#map {
+#map_header {
         margin-top: 80px;
+        float: right;
+        width: 65%;
+	height: 5%;
+}
+
+#map {
         margin-left: 5px;
         float: left;
         background-color: #FFFFFF;
         width: 65%;
-        height: 85%;
+        height: 60%;
 
 }
 

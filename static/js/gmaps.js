@@ -58,3 +58,13 @@ var selectItem = (function() {
 	}	
 	return func;
 }());
+
+var populateHeader = function() {
+	var header = document.getElementById("map_header");
+	header.innerHTML = this.dataset.activity;
+};
+
+var items = document.getElementsByClassName("item");
+Array.prototype.forEach.call(items, function(item) {
+	item.addEventListener("click", populateHeader);
+});	

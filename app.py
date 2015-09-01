@@ -8,6 +8,12 @@ from bson.json_util import dumps
 import json
 import pycountry 
 import ConfigParser 
+import datetime
+
+MONGODB_HOST = 'localhost'
+MONGODB_PORT = 27017
+connection = MongoClient(MONGODB_HOST, MONGODB_PORT)
+DB_NAME = 'fitness'
 
 app = Flask(__name__,static_folder='static', static_url_path="/static")
 
@@ -17,16 +23,19 @@ config = 'gmaps.key'
 def index():
 	""" sorts json file by date and returns it """
 
+	collection = connection[DB_NAME]['trails']
 	parser = ConfigParser.SafeConfigParser()
 	parser.read(config)
 	KEY=parser.get('KEYS', 'KEY')
 	# open inventory.json to get the list of kml files
 	# currently in inventory
-	with open('inventory.json') as f:
-		the_list = json.loads(f.read())
-		# sort by date:
-		sorted_list = sorted(the_list, key=lambda k: k['date'])
-		return render_template("index.html", KEY=KEY, the_list=sorted_list)
+	the_list = [i for i in collection.find({}, {'_id': False})]
+	# convert date to datetime object for template formatting:
+	for item in the_list:
+		item['date'] = datetime.datetime.strptime(item['date'],'%Y-%m-%d %H:%M:%S')
+	# sort by date:
+	sorted_list = sorted(the_list, key=lambda k: k['date'])
+	return render_template("index.html", KEY=KEY, the_list=sorted_list)
 	return 'Unable to open date file' 
 
 @app.route("/kml")
@@ -44,8 +53,9 @@ def return_kml():
 
 @app.route("/json")
 def testjson():
-	with open('inventory.json') as f:
-		return f.read()
+        collection = connection[DB_NAME]['trails']
+        the_list = [i for i in collection.find({}, {'_id': False})]
+	return json.dumps(the_list)
 
 if __name__ == "__main__":
         app.run(host='0.0.0.0', port=5001, debug=True) 

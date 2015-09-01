@@ -5,11 +5,11 @@
 </head> 
 <body>
 <div id="background">
+	<div id="map_header"></div>
 	<div id="narrow_long">
 	<ul>
 	{% for item in the_list %}
-		<!-- <li onClick="map.addKmlLayer('/kml?uid={{item.uid}}')>{{item.date}}:{{item.name}}</li> -->
-		<li class="item" onClick="map.addKmlLayer('http://54.69.189.73/kml/{{item.uid}}/doc.kml'); selectItem(this);">{{item.date}}:{{item.name}}</li>
+		<li class="item" data-activity="{{item.activity}}" onClick="map.addKmlLayer('http://54.69.189.73/kml/{{item.uid}}/doc.kml'); selectItem(this);">{{item.date.strftime('%B %d, %Y %H:%M %p')}}</li>
 	{% endfor %}
 	</ul>
 	</div>

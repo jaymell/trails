@@ -9,7 +9,7 @@
 	<div id="narrow_long">
 	<ul>
 	{% for item in the_list %}
-		<li class="item" data-activity="{{item.activity}}" onClick="map.addKmlLayer('http://54.69.189.73/kml/{{item.uid}}/doc.kml'); selectItem(this);">{{item.date.strftime('%B %d, %Y %H:%M %p')}}</li>
+		<li class="item" data-activity="{{item.activity}}" data-uid="{{item.uid}}">{{item.date.strftime('%B %d, %Y %I:%M %p')}}</li>
 	{% endfor %}
 	</ul>
 	</div>

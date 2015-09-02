@@ -99,11 +99,10 @@ def process(kml_file, kmz=False):
 					if kmz:
 						zipped.extractall(dest)
 					else:
-						if not os.path.exists(os.path.dirname(dest)):
-							os.makedirs(os.path.dirname(dest))
-							shutil.copy(kml_file, '%s/doc.kml' % dest)
+						if not os.path.exists(os.path.dirname(dest)): os.makedirs(os.path.dirname(dest))
+						shutil.copy(kml_file, '%s/doc.kml' % dest)
 				except Exception as e:
-					print('Failed to extract files: %s\n\tTring to remove record from database...' % e)
+					print('Failed to extract files: %s\n\tTrying to remove record from database...' % e)
 					try:
 						collection.remove(kml.as_json())
 					except Exception as e:

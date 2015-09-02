@@ -3,3 +3,4 @@ static/kml/*
 gmaps.key
 *.pyc
 doc*kml
+*.swp

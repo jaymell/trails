@@ -55,7 +55,8 @@ def return_kml():
 def testjson():
         collection = connection[DB_NAME]['trails']
         the_list = [i for i in collection.find({}, {'_id': False})]
-	return json.dumps(the_list)
+	sorted_list = sorted(the_list, key=lambda k: k['date'])
+	return json.dumps(sorted_list)
 
 if __name__ == "__main__":
         app.run(host='0.0.0.0', port=5001, debug=True) 

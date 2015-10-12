@@ -73,7 +73,11 @@ Array.prototype.forEach.call(items, function(item) {
 	item.addEventListener("click", populateHeader);
 	item.addEventListener("click", function() {
 		var uid = item.dataset.uid; 
-		map.addKmlLayer('http://aws-rumdrums.servequake.com/kml/' + uid + '/doc.kml');
+		// google needs a publicly accessible file in order to load kml,
+		// so until this app is running on apache, pointing it to 
+		// aws server file store:
+		var TEMP_URL = 'http://aws-jaymell.servequake.com/kml/';
+		map.addKmlLayer(TEMP_URL + uid + '/doc.kml');
 	});
 	item.addEventListener("click", selectItem(item));
 });	

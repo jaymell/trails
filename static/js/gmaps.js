@@ -53,6 +53,7 @@ var selectItem = (function() {
 		if (selected) {
 			selected.style.backgroundColor = oldBackground;
 		}
+		console.log('again');
 		oldBackground = item.style.backgroundColor;
 		// orange: could definitely do a little better:
 		item.style.backgroundColor = "#FFA500";
@@ -68,19 +69,20 @@ var populateHeader = function() {
 };
 
 // add onClick events to items in list:
-var items = document.getElementsByClassName("item");
-Array.prototype.forEach.call(items, function(item) {
-	item.addEventListener("click", populateHeader);
-	item.addEventListener("click", function() {
-		var uid = item.dataset.uid; 
-		// google needs a publicly accessible file in order to load kml,
-		// so until this app is running on apache, pointing it to 
-		// aws server file store:
-		var TEMP_URL = 'http://aws-jaymell.servequake.com/kml/';
-		map.addKmlLayer(TEMP_URL + uid + '/doc.kml');
-	});
-	item.addEventListener("click", selectItem(item));
-});	
-
+window.onload = function() {
+	var items = document.getElementsByClassName("item");
+	Array.prototype.forEach.call(items, function(item) {
+		item.addEventListener("click", populateHeader);
+		item.addEventListener("click", function() {
+			var uid = item.dataset.uid; 
+			// google needs a publicly accessible file in order to load kml,
+			// so until this app is running on apache, pointing it to 
+			// aws server file store:
+			var TEMP_URL = 'http://aws-jaymell.servequake.com/kml/';
+			map.addKmlLayer(TEMP_URL + uid + '/doc.kml');
+		});
+		item.addEventListener("click", selectItem(item));
+	});	
+}();
 
 

@@ -21,14 +21,15 @@ config = 'gmaps.key'
 
 @app.route("/")
 def index():
-	""" sorts json file by date and returns it """
+	""" sort kml files in db and return list,
+            load index page """
 
 	collection = connection[DB_NAME]['trails']
 	parser = ConfigParser.SafeConfigParser()
 	parser.read(config)
 	KEY=parser.get('KEYS', 'KEY')
-	# open inventory.json to get the list of kml files
-	# currently in inventory
+	# query db to get the list of kml files
+	# currently in inventory:
 	the_list = [i for i in collection.find({}, {'_id': False})]
 	# convert date to datetime object for template formatting:
 	for item in the_list:
@@ -40,6 +41,7 @@ def index():
 
 @app.route("/kml")
 def return_kml():
+	""" not used anymore """
 	uid = request.args.get('uid', '')
 	if uid:
 		try:
@@ -53,6 +55,7 @@ def return_kml():
 
 @app.route("/json")
 def testjson():
+	""" just for testing output of db content """
         collection = connection[DB_NAME]['trails']
         the_list = [i for i in collection.find({}, {'_id': False})]
 	sorted_list = sorted(the_list, key=lambda k: k['date'])
@@ -60,5 +63,3 @@ def testjson():
 
 if __name__ == "__main__":
         app.run(host='0.0.0.0', port=5001, debug=True) 
-
-

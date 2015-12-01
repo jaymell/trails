@@ -53,7 +53,6 @@ var selectItem = (function() {
 		if (selected) {
 			selected.style.backgroundColor = oldBackground;
 		}
-		console.log('again');
 		oldBackground = item.style.backgroundColor;
 		// orange: could definitely do a little better:
 		item.style.backgroundColor = "#FFA500";
@@ -81,7 +80,7 @@ window.onload = function() {
 			var TEMP_URL = 'http://aws-jaymell.servequake.com/kml/';
 			map.addKmlLayer(TEMP_URL + uid + '/doc.kml');
 		});
-		item.addEventListener("click", selectItem(item));
+		item.addEventListener("click", function() {selectItem(item)});
 	});	
 }();
 

@@ -8,22 +8,7 @@ var map = (function() {
 	};
 	console.log(mapOptions.mapTypeId);
 	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-/*
-	// the following removes the annoying equator and date lines:
-	var mapStyle = [
-	      {
-		 featureType: "administrative",
-		 elementType: "geometry.fill",
-		 stylers: [
-		    { visibility: "off" }
-		 ]
-	       }
-	];
-	var styledMap = new google.maps.StyledMapType(mapStyle);
-	map.mapTypes.set('myCustomMap', styledMap);
-	map.setMapTypeId('myCustomMap');
-	// end part that removes equator and date lines here 
-*/
+
 	// for holding old kml layer:
 	var old = undefined;
 	return {
@@ -34,6 +19,7 @@ var map = (function() {
 				old.setMap(null);
 			}
 			var kmlLayer = new google.maps.KmlLayer(url, options);
+			console.log("url passed to google: ", url);
 			console.log(kmlLayer);
 			old = kmlLayer;
 		}
@@ -75,7 +61,7 @@ window.onload = function() {
 		item.addEventListener("click", function() {
 			var uid = item.dataset.uid; 
 			// google needs a publicly accessible file in order to load kml:
-			map.addKmlLayer(public_url + '/kml/' + uid);
+			map.addKmlLayer(public_url + '/static/kml/' + uid + '/doc.kml');
 		});
 		item.addEventListener("click", function() {selectItem(item)});
 	});	

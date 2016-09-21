@@ -1,5 +1,7 @@
 ## Show KML files in Google maps
 
 #### FIXME:
-* get images working again -- currently returns broken relative links
+* stop loading data via server-side templating
+* better javascriptings
+* ability to load via new kml via POST
 

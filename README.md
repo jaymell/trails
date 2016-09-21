@@ -5,4 +5,4 @@
 * stop loading data via server-side templating
 * better javascriptings
 * ability to load via new kml via POST instead of import script
-
+* phone friendly responsiveness

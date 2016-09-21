@@ -4,3 +4,4 @@ gmaps.key
 *.pyc
 doc*kml
 *.swp
+config

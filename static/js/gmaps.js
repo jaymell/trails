@@ -74,11 +74,8 @@ window.onload = function() {
 		item.addEventListener("click", populateHeader);
 		item.addEventListener("click", function() {
 			var uid = item.dataset.uid; 
-			// google needs a publicly accessible file in order to load kml,
-			// so until this app is running on apache, pointing it to 
-			// aws server file store:
-			var TEMP_URL = 'http://aws-jaymell.servequake.com/kml/';
-			map.addKmlLayer(TEMP_URL + uid + '/doc.kml');
+			// google needs a publicly accessible file in order to load kml:
+			map.addKmlLayer(public_url + '/kml/' + uid);
 		});
 		item.addEventListener("click", function() {selectItem(item)});
 	});	

@@ -1,0 +1,13 @@
+[KEYS]
+KEY = <google maps api key>
+
+[DB]
+MONGODB_HOST = localhost
+MONGODB_PORT = 27017
+DB_NAME = trails
+COLLECTION = trails
+
+[WEB]
+LISTEN_ADDR = 0.0.0.0
+PORT = 5002
+PUBLIC_URL = < publicly accessible url so google maps can access your kml >
